@@ -15,7 +15,9 @@ struct ContentView: View {
     @State private var scorePoint = 0
     @State private var countries = ["estonia","france","germany","ireland","italy","nigeria","poland","russia","spain","uk","us"].shuffled()
     @State private var correctAnswer = Int.random(in: 0...2)
-    
+
+    @State private var selectedButton : Int? = nil
+    @State private var animationAmount = [0.0, 0.0, 0.0]
    
     var body: some View {
         
@@ -50,6 +52,16 @@ struct ContentView: View {
                                 .renderingMode(.original)
                                 .clipShape(Capsule())
                                 .shadow(radius: 5)
+                                .rotation3DEffect(
+                                    .degrees(animationAmount[number]),
+                                    axis: (x: 0, y: 1, z: 0)
+                                )
+                                .opacity(selectedButton == nil || selectedButton == number ? 1 : 0.25)
+                                .scaleEffect(selectedButton == nil || selectedButton == number ? 1 : 0.5)
+                                .rotation3DEffect(
+                                    .degrees(selectedButton == nil || selectedButton == number ? 0 : 180),
+                                    axis: (x: 1, y: 0, z: 0)
+                                )
                         }
                         
                     }
@@ -101,6 +113,7 @@ struct ContentView: View {
         }
     }
     func askQuestion(){
+        selectedButton = nil
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
     }
