@@ -52,16 +52,10 @@ struct ContentView: View {
                                 .renderingMode(.original)
                                 .clipShape(Capsule())
                                 .shadow(radius: 5)
-                                .rotation3DEffect(
-                                    .degrees(animationAmount[number]),
-                                    axis: (x: 0, y: 1, z: 0)
-                                )
-                                .opacity(selectedButton == nil || selectedButton == number ? 1 : 0.25)
-                                .scaleEffect(selectedButton == nil || selectedButton == number ? 1 : 0.5)
-                                .rotation3DEffect(
-                                    .degrees(selectedButton == nil || selectedButton == number ? 0 : 180),
-                                    axis: (x: 1, y: 0, z: 0)
-                                )
+                                .modifier(FlagOpacityModifier(selectedButton: selectedButton, number: number))
+                                .modifier(FlagRotationModifier(animationAmount: animationAmount[number]))
+                                .modifier(FlagScaleModifier(selectedButton: selectedButton, number: number))
+                                .modifier(FlagFlipModifier(selectedButton: selectedButton, number: number))
                         }
                         
                     }
